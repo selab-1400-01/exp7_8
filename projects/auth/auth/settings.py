@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'main',
 ]
 
 MIDDLEWARE = [
@@ -122,3 +123,14 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+EVENT_QUEUES = {
+    'doctor': {
+        'exchange': 'doctor_profile',
+        'queue': 'auth_user_doctor'
+    },
+    'patient': {
+        'exchange': 'patient_profile',
+        'queue': 'auth_user_patient'
+    },
+}
