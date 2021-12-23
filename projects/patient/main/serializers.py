@@ -7,8 +7,6 @@ class PatientSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=255)
 
     def update(self, instance, validated_data):
-        instance.name = validated_data.get('name', instance.name)
-        instance.save()
         return instance
 
     def create(self, validated_data):

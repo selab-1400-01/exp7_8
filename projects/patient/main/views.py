@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from main.serializers import PatientSerializer
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class PatientViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
