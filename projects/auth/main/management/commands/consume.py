@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
-
+from django.contrib.auth.models import User, Group
+import json
 import pika
 
 
@@ -48,8 +49,25 @@ class Command(BaseCommand):
 
     def __consume_doctor(self, ch, method, properties, body):
         self.stdout.write("Received doctor.")
-        self.stdout.write(str(body))
+        user = self.__get_or_create_user_by_message(body)
+        group, _ = Group.objects.get_or_create(name="doctors")
+        user.groups.add(group)
+        user.save()
 
     def __consume_patient(self, ch, method, properties, body):
         self.stdout.write("Received patient.")
-        self.stdout.write(str(body))
+        self.__get_or_create_user_by_message(body)
+
+    def __get_or_create_user_by_message(self, body: bytes) -> User:
+        national_id, password = Command.__get_national_id_and_pass(body)
+        user, created = User.objects.get_or_create(username=national_id)
+        if created:
+            self.stdout.write(f"User created. Username = {user.username}")
+
+        user.set_password(password)
+        user.save()
+        return user
+
+    def __get_national_id_and_pass(body: bytes) -> tuple[str, str]:
+        user_info = json.loads(body)
+        return user_info["national_id"], user_info["password"]
