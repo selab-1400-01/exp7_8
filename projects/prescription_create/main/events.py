@@ -19,7 +19,7 @@ class PrescriptionCreationEvent:
 
 class EventProducer:
 
-    def broadcast_patient_creation(self, event: PrescriptionCreationEvent):
+    def broadcast_prescription_creation(self, event: PrescriptionCreationEvent):
         connection = pika.BlockingConnection(
             pika.ConnectionParameters(host=settings.EVENT_QUEUES["host"]))
         channel = connection.channel()

@@ -26,7 +26,7 @@ class PrescriptionCreate(APIView):
         prescription = serializer.validated_data
 
         producer = EventProducer()
-        producer.broadcast_patient_creation(
+        producer.broadcast_prescription_creation(
             PrescriptionCreationEvent(prescription, request.user.national_id))
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)

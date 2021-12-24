@@ -1,5 +1,4 @@
 from django.urls import path, re_path
-from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -27,5 +26,3 @@ urlpatterns += [
     re_path(r'^redoc/$', schema_view.with_ui('redoc',
             cache_timeout=0), name='schema-redoc'),
 ]
-
-
