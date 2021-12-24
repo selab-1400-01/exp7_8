@@ -135,6 +135,7 @@ REST_FRAMEWORK = {
 }
 
 EVENT_QUEUES = {
+    'host': 'rabbitmq',
     'doctor': {
         'exchange': 'doctor_profile',
         'queue': 'auth_user_doctor'

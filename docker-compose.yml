@@ -84,6 +84,7 @@ services:
       - POSTGRES_PASSWORD=postgres
     depends_on:
       - db-doctor
+      - rabbitmq
 
   patient:
     build: projects/patient/
@@ -97,6 +98,7 @@ services:
       - POSTGRES_PASSWORD=postgres
     depends_on:
       - db-patient
+      - rabbitmq
 
   auth:
     build: projects/auth/
@@ -110,6 +112,7 @@ services:
       - POSTGRES_PASSWORD=postgres
     depends_on:
       - db-auth
+      - rabbitmq
 
 volumes:
   doctor-db:

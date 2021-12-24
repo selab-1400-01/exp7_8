@@ -1,8 +1,11 @@
+from threading import Thread
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from django.contrib.auth.models import User, Group
 import json
 import pika
+import pika.exceptions
+from time import sleep
 
 
 class Command(BaseCommand):
@@ -25,8 +28,16 @@ class Command(BaseCommand):
         self.channel.start_consuming()
 
     def __setup(self):
-        connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host='localhost'))
+        while True:
+            try:
+                connection = pika.BlockingConnection(
+                    pika.ConnectionParameters(host=settings.EVENT_QUEUES["host"]))
+                break
+            except pika.exceptions.AMQPConnectionError:
+                self.stdout.write("Couldn't connect.")
+                sleep(1)
+                pass
+
         self.channel = channel = connection.channel()
 
         doctor_settings = settings.EVENT_QUEUES["doctor"]
