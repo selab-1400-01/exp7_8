@@ -14,8 +14,8 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('prescription/', views.DoctorList.as_view()),
-    path('prescription/<str:national_id>/', views.DoctorDetail.as_view()),
+    path('prescription/', views.PrescriptionList.as_view()),
+    path('prescription/<str:national_id>/', views.PrescriptionList.as_view()),
 ]
 
 urlpatterns += [
