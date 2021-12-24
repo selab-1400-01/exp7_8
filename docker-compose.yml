@@ -43,6 +43,22 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
+  db-auth:
+    restart: always
+    image: docker.repos.balad.ir/postgres:latest
+    container_name: db-auth
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_PORT=5432
+    ports:
+      - "5434:5432"
+    volumes:
+      - auth-db:/var/lib/postgresql/data/
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
   pgadmin:
     image: docker.repos.balad.ir/dpage/pgadmin4
     container_name: pgadmin
@@ -68,6 +84,7 @@ services:
       - POSTGRES_PASSWORD=postgres
     depends_on:
       - db-doctor
+
   patient:
     build: projects/patient/
     volumes:
@@ -80,8 +97,23 @@ services:
       - POSTGRES_PASSWORD=postgres
     depends_on:
       - db-patient
+
+  auth:
+    build: projects/auth/
+    volumes:
+      - ./projects/auth/:/code
+    ports:
+      - "8003:8000"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db-auth
+
 volumes:
   doctor-db:
   patient-db:
+  auth-db:
   rabbit-data:
   rabbit-log:
