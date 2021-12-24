@@ -104,7 +104,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'main.authentication.CustomJWTAuthentication',
+    ]
 }
 
 # Internationalization
@@ -130,4 +133,8 @@ EVENT_QUEUES = {
         'exchange': 'patient_profile',
         'queue': 'auth_user_patient'
     },
+}
+
+SIMPLE_JWT = {
+    'SIGNING_KEY': 'django-insecure-tv@zy-^!7lsazd75x9kv@)!pu*-%31=t%z1*m7g%4z!4=&gf(r',
 }

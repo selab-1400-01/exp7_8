@@ -141,3 +141,7 @@ EVENT_QUEUES = {
         'queue': 'auth_user_patient'
     },
 }
+
+SIMPLE_JWT = {
+    'SIGNING_KEY': 'django-insecure-tv@zy-^!7lsazd75x9kv@)!pu*-%31=t%z1*m7g%4z!4=&gf(r',
+}
