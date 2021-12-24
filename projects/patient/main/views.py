@@ -1,15 +1,18 @@
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 
 from main.serializers import PatientSerializer
 from main.models import Patient
+from .authentication import HasSameNationalIdPermission
 from .events import PatientCreationEvent, EventProducer
 
 
 class PatientList(generics.ListCreateAPIView):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
+    permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -31,3 +34,4 @@ class PatientDetail(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'national_id'
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
+    permission_classes = [HasSameNationalIdPermission]

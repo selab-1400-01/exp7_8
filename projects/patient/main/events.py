@@ -21,7 +21,7 @@ class EventProducer:
 
     def broadcast_patient_creation(self, event: PatientCreationEvent):
         connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host='localhost'))
+            pika.ConnectionParameters(host='rabbitmq'))
         channel = connection.channel()
 
         patient_settings = settings.EVENT_QUEUES["patient"]
