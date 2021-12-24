@@ -3,7 +3,7 @@ version: "3.1"
 services:
   db-doctor:
     restart: always
-    image: postgres:latest
+    image: docker.repos.balad.ir/postgres:latest
     container_name: doctor-postgres
     environment:
       - POSTGRES_USER=postgres
@@ -19,7 +19,7 @@ services:
 
   db-patient:
     restart: always
-    image: postgres:latest
+    image: docker.repos.balad.ir/postgres:latest
     container_name: patient-postgres
     environment:
       - POSTGRES_USER=postgres
@@ -34,7 +34,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
 
   pgadmin:
-    image: dpage/pgadmin4
+    image: docker.repos.balad.ir/dpage/pgadmin4
     container_name: pgadmin
     depends_on:
       - db-doctor
