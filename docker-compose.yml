@@ -1,0 +1,75 @@
+version: "3.1"
+
+services:
+  db-doctor:
+    restart: always
+    image: postgres:latest
+    container_name: doctor-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_PORT=5432
+    ports:
+      - "5432:5432"
+    volumes:
+      - doctor-postgres:/var/lib/postgresql/data/
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
+  db-patient:
+    restart: always
+    image: postgres:latest
+    container_name: patient-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_PORT=5432
+    ports:
+      - "5433:5432"
+    volumes:
+      - patient-postgres:/var/lib/postgresql/data/
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    depends_on:
+      - db-doctor
+      - db-patient
+    ports:
+      - "5051:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: pgadmin
+    restart: always
+
+  doctor:
+    build: projects/doctor/
+    volumes:
+      - ./projects/doctor/:/code
+    ports:
+      - "8001:8000"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db-doctor
+  patient:
+    build: projects/patient/
+    volumes:
+      - ./projects/patient/:/code
+    ports:
+      - "8002:8000"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db-patient
+volumes:
+  doctor-postgres:
+  patient-postgres:
