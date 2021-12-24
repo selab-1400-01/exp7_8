@@ -59,6 +59,22 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
+  db-prescription:
+    restart: always
+    image: docker.repos.balad.ir/postgres:latest
+    container_name: db-prescription
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_PORT=5432
+    ports:
+      - "5435:5432"
+    volumes:
+      - prescription-db:/var/lib/postgresql/data/
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
   pgadmin:
     image: docker.repos.balad.ir/dpage/pgadmin4
     container_name: pgadmin
@@ -114,9 +130,23 @@ services:
       - db-auth
       - rabbitmq
 
+  prescription:
+    build: projects/prescription/
+    volumes:
+      - ./projects/prescription/:/code
+    ports:
+      - "8004:8000"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db-prescription
+
 volumes:
   doctor-db:
   patient-db:
   auth-db:
+  prescription-db:
   rabbit-data:
   rabbit-log:

@@ -3,8 +3,8 @@ from main.models import Prescription
 
 
 class PrescriptionSerializer(serializers.Serializer):
-    national_id = serializers.CharField(max_length=40)
-    name = serializers.CharField(max_length=255)
+    patient_national_id = serializers.CharField(max_length=40)
+    doctor_id = serializers.CharField(max_length=40)
     drugs_list = serializers.CharField(max_length=255, default="")
     comment = serializers.CharField(max_length=255, allow_blank=True, default="")
 
