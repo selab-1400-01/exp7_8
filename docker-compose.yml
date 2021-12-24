@@ -8,8 +8,8 @@ services:
       - 5672:5672
       - 15672:15672
     volumes:
-      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+      - rabbit-data:/var/lib/rabbitmq
+      - rabbit-log:/var/log/rabbitmq
 
   db-doctor:
     restart: always
@@ -83,3 +83,5 @@ services:
 volumes:
   doctor-db:
   patient-db:
+  rabbit-data:
+  rabbit-log:
