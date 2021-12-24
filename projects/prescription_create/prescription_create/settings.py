@@ -130,3 +130,31 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+EVENT_QUEUES = {
+    'host': 'rabbitmq',
+    'patient': {
+        'exchange': 'patient_profile',
+        'queue': 'auth_user_patient'
+    },
+}
+
+SIMPLE_JWT = {
+    'SIGNING_KEY': 'django-insecure-tv@zy-^!7lsazd75x9kv@)!pu*-%31=t%z1*m7g%4z!4=&gf(r',
+}
+
+SWAGGER_SETTINGS = {
+   'SECURITY_DEFINITIONS': {
+      'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+      }
+   }
+}
