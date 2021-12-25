@@ -1,4 +1,6 @@
-django
-djangorestframework
-psycopg2-binary
 drf_yasg
+djangorestframework
+djangorestframework-simplejwt
+django
+psycopg2-binary
+pika
