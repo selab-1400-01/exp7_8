@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+echo
+echo "Migrating app ..."
+echo
+
+python manage.py makemigrations
+python manage.py migrate
+
+echo
+echo "Migrated successfully!"
+echo
+
+python manage.py runserver 0.0.0.0:8000

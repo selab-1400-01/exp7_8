@@ -91,6 +91,22 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
+  db-gateway:
+    restart: always
+    image: docker.repos.balad.ir/postgres:latest
+    container_name: db-gateway
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_PORT=5432
+    ports:
+      - "5437:5432"
+    volumes:
+      - gateway-db:/var/lib/postgresql/data/
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
   pgadmin:
     image: docker.repos.balad.ir/dpage/pgadmin4
     container_name: pgadmin
@@ -172,11 +188,25 @@ services:
     depends_on:
       - db-prescription_create
 
+  gateway:
+    build: projects/gateway/
+    volumes:
+      - ./projects/gateway/:/code
+    ports:
+      - "8006:8000"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db-gateway
+
 volumes:
   doctor-db:
   patient-db:
   auth-db:
   prescription-db:
   prescription_create-db:
+  gateway-db:
   rabbit-data:
   rabbit-log:
