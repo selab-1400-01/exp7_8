@@ -126,6 +126,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 EVENT_QUEUES = {
+    'host': 'rabbitmq',
     'doctor': {
         'exchange': 'doctor_profile',
     },

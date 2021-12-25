@@ -75,14 +75,14 @@ class Command(BaseCommand):
         doctor_info = json.loads(body)
         if "password" in doctor_info:
             del doctor_info["password"]
-        Doctor.objects.get_or_create(**doctor_info)
+        Doctor.objects.get_or_create(national_id=doctor_info["national_id"], name=doctor_info["name"])
 
     def __consume_patient(self, ch, method, properties, body):
         self.stdout.write("Received patient in prescription.")
         patient_info = json.loads(body)
         if "password" in patient_info:
             del patient_info["password"]
-        Patient.objects.get_or_create(**patient_info)
+        Patient.objects.get_or_create(national_id=patient_info["national_id"], name=patient_info["name"])
 
     def __consume_prescription(self, ch, method, properties, body):
         self.stdout.write("Received prescription in prescription.")

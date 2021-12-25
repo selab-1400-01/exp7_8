@@ -152,3 +152,11 @@ SWAGGER_SETTINGS = {
       }
    }
 }
+
+GATEWAY_ENDPOINTS = {
+    'doctor': 'http://doctor:8000',
+    'patient': 'http://patient:8000',
+    'auth': 'http://auth:8000',
+    'prescription': 'http://prescription:8000',
+    'prescription_create': 'http://prescription_create:8000',
+}
